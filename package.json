@@ -1,0 +1,11 @@
+{
+  "name": "batchserviceclient",
+  "author": "Microsoft Corporation",
+  "description": "A client for issuing REST requests to the Azure Batch service.",
+  "license": "MIT",
+  "dependencies": {
+    "@azure-tools/cadl-autorest": "latest",
+    "@azure-tools/cadl-python": "^0.4.24"
+  },
+  "private": true
+}

@@ -1,0 +1,330 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "BatchServiceClient",
+    "version": "2022-10-01.16.0",
+    "description": "A client for issuing REST requests to the Azure Batch service.",
+    "x-cadl-generated": [
+      {
+        "emitter": "@azure-tools/cadl-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Files"
+    }
+  ],
+  "paths": {
+    "/pools/{poolId}/nodes/{nodeId}/files/{filePath}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "operationId": "File_GetFromComputeNode",
+        "description": "Returns the content of the specified Compute Node file.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.poolId"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.nodeId"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.filePath"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.ocp-range"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.timeOut"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.client-request-id"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.return-client-request-id"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.ocp-date"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.If-Modified-Since"
+          },
+          {
+            "$ref": "#/parameters/BatchPoolFileClientRequestHeaders.If-Unmodified-Since"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "client-request-id": {
+                "description": "The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true.",
+                "format": "uuid",
+                "type": "string"
+              },
+              "request-id": {
+                "description": "A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in.",
+                "format": "uuid",
+                "type": "string"
+              },
+              "etag": {
+                "description": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.",
+                "type": "string"
+              },
+              "last-modified": {
+                "description": "The time at which the resource was last modified.",
+                "format": "date-time-rfc1123",
+                "type": "string"
+              },
+              "ocp-creation-time": {
+                "description": "The file creation time.",
+                "format": "date-time-rfc1123",
+                "type": "string"
+              },
+              "ocp-batch-file-isdirectory": {
+                "description": "Whether the object represents a directory.",
+                "type": "boolean"
+              },
+              "ocp-batch-file-url": {
+                "description": "The URL of the file.",
+                "type": "string"
+              },
+              "ocp-batch-file-mode": {
+                "description": "The file mode attribute in octal format.",
+                "type": "string"
+              },
+              "content-length": {
+                "description": "The length of the file.",
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "description": "String error code indicating what went wrong.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/octet-stream",
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Azure.Core.Foundations.Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "One of a server-defined set of error codes."
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable representation of the error."
+        },
+        "target": {
+          "type": "string",
+          "description": "The target of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Azure.Core.Foundations.Error"
+          },
+          "x-ms-identifiers": [],
+          "x-cadl-name": "Azure.Core.Foundations.Error[]",
+          "description": "An array of details about specific errors that led to this reported error."
+        },
+        "innererror": {
+          "$ref": "#/definitions/Azure.Core.Foundations.InnerError",
+          "description": "An object containing more specific information than the current object about the error."
+        }
+      },
+      "description": "The error object.",
+      "required": [
+        "code",
+        "message",
+        "details"
+      ]
+    },
+    "Azure.Core.Foundations.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Azure.Core.Foundations.Error",
+          "description": "The error object."
+        }
+      },
+      "description": "A response containing error details.",
+      "required": [
+        "error"
+      ]
+    },
+    "Azure.Core.Foundations.InnerError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "One of a server-defined set of error codes."
+        },
+        "innererror": {
+          "$ref": "#/definitions/Azure.Core.Foundations.InnerError",
+          "description": "Inner error."
+        }
+      },
+      "description": "An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.",
+      "required": [
+        "code"
+      ]
+    },
+    "BatchPoolFileClientRequestHeaders": {
+      "type": "object",
+      "properties": {},
+      "description": "Common header parms for Pool related File operartions"
+    },
+    "Versions": {
+      "type": "string",
+      "enum": [
+        "2022-10-01.16.0"
+      ],
+      "x-ms-enum": {
+        "name": "Versions",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "v2022_10_01",
+            "value": "2022-10-01.16.0"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "Azure.Core.Foundations.ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "description": "The API version to use for this operation.",
+      "x-ms-client-name": "apiVersion",
+      "minLength": 1,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.If-Modified-Since": {
+      "name": "if-modified-since",
+      "in": "header",
+      "required": false,
+      "description": "A timestamp indicating the last modified time of the resource known to the\nclient. The operation will be performed only if the resource on the service has\nbeen modified since the specified time.",
+      "x-ms-client-name": "If-Modified-Since",
+      "format": "date-time-rfc1123",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.If-Unmodified-Since": {
+      "name": "if-unmodified-since",
+      "in": "header",
+      "required": false,
+      "description": "A timestamp indicating the last modified time of the resource known to the\nclient. The operation will be performed only if the resource on the service has\nnot been modified since the specified time.",
+      "x-ms-client-name": "If-Unmodified-Since",
+      "format": "date-time-rfc1123",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.client-request-id": {
+      "name": "client-request-id",
+      "in": "header",
+      "required": false,
+      "description": "The caller-generated request identity, in the form of a GUID with no decoration\nsuch as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.",
+      "format": "uuid",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.filePath": {
+      "name": "filePath",
+      "in": "path",
+      "required": true,
+      "description": "The path to the file or directory that you want to delete.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.nodeId": {
+      "name": "nodeId",
+      "in": "path",
+      "required": true,
+      "description": "The ID of the Compute Node from which you want to delete the file.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.ocp-date": {
+      "name": "ocp-date",
+      "in": "header",
+      "required": false,
+      "description": "The time the request was issued. Client libraries typically set this to the\ncurrent system clock time; set it explicitly if you are calling the REST API\ndirectly.",
+      "format": "date-time-rfc1123",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.ocp-range": {
+      "name": "ocp-range",
+      "in": "header",
+      "required": false,
+      "description": "The byte range to be retrieved. The default is to retrieve the entire file. The\nformat is bytes=startRange-endRange.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.poolId": {
+      "name": "poolId",
+      "in": "path",
+      "required": true,
+      "description": "The ID of the Pool that contains the Compute Node.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.return-client-request-id": {
+      "name": "return-client-request-id",
+      "in": "header",
+      "required": false,
+      "description": "Whether the server should return the client-request-id in the response.",
+      "default": false,
+      "type": "boolean",
+      "x-ms-parameter-location": "method"
+    },
+    "BatchPoolFileClientRequestHeaders.timeOut": {
+      "name": "timeOut",
+      "in": "query",
+      "required": false,
+      "description": "The maximum number of items to return in the response. A maximum of 1000\napplications can be returned.",
+      "default": 30,
+      "type": "integer",
+      "format": "int32",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}
